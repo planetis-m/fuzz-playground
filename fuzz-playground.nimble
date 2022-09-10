@@ -1,0 +1,33 @@
+mode = ScriptMode.Verbose
+
+version = "0.1.0"
+author = "drchaos Team"
+description = "Run tests and benchmarks"
+license = ""
+srcDir = "."
+skipDirs = @["tests", "benchmarks", "examples", "experiments"]
+
+requires "nim >= 1.7.1"
+requires "drchaos >= 0.1.8"
+
+proc buildBinary(name: string, srcDir = "./", params = "", lang = "c") =
+  if not dirExists "build":
+    mkDir "build"
+  # allow something like "nim nimbus --verbosity:0 --hints:off nimbus.nims"
+  var extra_params = params
+  when compiles(commandLineParams):
+    for param in commandLineParams:
+      extra_params &= " " & param
+  else:
+    for i in 2..<paramCount():
+      extra_params &= " " & paramStr(i)
+
+  exec "nim " & lang & " --out:build/" & name & " " & extra_params & " " & srcDir & name & ".nim"
+
+proc test(name: string, srcDir = "tests/", args = "", lang = "c") =
+  buildBinary name, srcDir, "--mm:arc -d:release"
+  withDir("build/"):
+    exec "./" & name & " -max_total_time=3600 " & args
+
+task test, "Run all tests":
+  test "test1", args = "-error_exitcode=0"
