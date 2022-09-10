@@ -24,7 +24,7 @@ proc buildBinary(name: string, srcDir = "./", params = "", lang = "c") =
   exec "nim " & lang & " --out:build/" & name & " " & extra_params & " " & srcDir & name & ".nim"
 
 proc test(name: string, srcDir = "tests/", args = "", lang = "c") =
-  buildBinary name, srcDir, "--mm:arc -d:danger --threads:off --panics:on -d:useMalloc -t:\"-fsanitize=fuzzer,address,undefined\" -l:\"-fsanitize=fuzzer,address,undefined\" -d:nosignalhandler --nomain:on -g -f "
+  buildBinary name, srcDir, "--cc:clang --mm:arc -d:danger --threads:off --panics:on -d:useMalloc -t:\"-fsanitize=fuzzer,address,undefined\" -l:\"-fsanitize=fuzzer,address,undefined\" -d:nosignalhandler --nomain:on -g -f "
   withDir("build/"):
     exec "./" & name & " -max_total_time=3600 " & args
 
