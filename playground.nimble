@@ -3,7 +3,7 @@ mode = ScriptMode.Verbose
 version = "0.1.0"
 author = "drchaos Team"
 description = "Run tests and benchmarks"
-license = ""
+license = "MIT"
 srcDir = "."
 skipDirs = @["tests", "benchmarks", "examples", "experiments"]
 
