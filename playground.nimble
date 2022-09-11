@@ -26,7 +26,9 @@ proc buildBinary(name: string, srcDir = "./", params = "", lang = "c") =
 proc test(name: string, srcDir = "tests/", args = "", lang = "c") =
   buildBinary name, srcDir, "--cc:clang --mm:arc -d:danger --threads:off --panics:on -d:useMalloc -t:\"-fsanitize=fuzzer,address,undefined\" -l:\"-fsanitize=fuzzer,address,undefined\" -d:nosignalhandler --nomain:on -g -f "
   withDir("build/"):
-    exec "./" & name & " -max_total_time=3600 " & args
+    if not dirExists "corpus":
+      mkDir "corpus"
+    exec "./" & name & " -max_total_time=3600 corpus/ " & args
 
 task test, "Run all tests":
   test "test1", args = "-error_exitcode=0"
