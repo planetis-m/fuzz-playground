@@ -17,47 +17,35 @@ func `==`(a, b: ContentNode): bool =
   of Text: return a.textStr == b.textStr
 
 proc fuzzTarget(x: ContentNode) =
-  let data = ContentNode(kind: P, pChildren: @[
-    ContentNode(kind: Text, textStr: "mychild1"),
-    ContentNode(kind: Br),
-    ContentNode(kind: P, pChildren: @[
-      ContentNode(kind: Text, textStr: "mychild2"),
-      ContentNode(kind: Text, textStr: "mychild3"),
-      ContentNode(kind: Br),
-      ContentNode(kind: P, pChildren: @[
-        ContentNode(kind: P, pChildren: @[])
-      ]),
-      ContentNode(kind: P, pChildren: @[ContentNode(kind: Br)]),
-      ContentNode(kind: P, pChildren: @[
-        ContentNode(kind: P, pChildren: @[
-          ContentNode(kind: P, pChildren: @[])
-        ])
-      ]),
-      ContentNode(kind: Text, textStr: "mychild4")
-    ]),
-    ContentNode(kind: P, pChildren: @[
-      ContentNode(kind: Text, textStr: "mychild5"),
-      ContentNode(kind: Br),
-      ContentNode(kind: P, pChildren: @[
-        ContentNode(kind: Text, textStr: "mychild6")
-      ]),
-      ContentNode(kind: P, pChildren: @[ContentNode(kind: Br)]),
-      ContentNode(kind: P, pChildren: @[]),
-      ContentNode(kind: P, pChildren: @[
-        ContentNode(kind: P, pChildren: @[
-          ContentNode(kind: P, pChildren: @[
-            ContentNode(kind: P, pChildren: @[
-              ContentNode(kind: P, pChildren: @[
-                ContentNode(kind: P, pChildren: @[]),
-                ContentNode(kind: Br)
-              ])
-            ])
-          ])
-        ])
-      ]),
-      ContentNode(kind: Text, textStr: "mychild7")
-    ])
-  ])
-  doAssert x != data
+  if x.kind == P and x.pChildren.len == 4 and
+    x.pChildren[0].kind == Text and x.pChildren[0].textStr == "mychild1" and
+    x.pChildren[1].kind == Br and
+    x.pChildren[2].kind == P and x.pChildren[2].pChildren.len == 7 and
+      x.pChildren[2].pChildren[0].kind == Text and x.pChildren[2].pChildren[0].textStr == "mychild2" and
+      x.pChildren[2].pChildren[1].kind == Text and x.pChildren[2].pChildren[1].textStr == "mychild3" and
+      x.pChildren[2].pChildren[2].kind == Br and
+      x.pChildren[2].pChildren[3].kind == P and x.pChildren[2].pChildren[3].pChildren.len == 1 and
+        x.pChildren[2].pChildren[3].pChildren[0].kind == P and x.pChildren[2].pChildren[3].pChildren[0].pChildren.len == 0 and
+      x.pChildren[2].pChildren[4].kind == P and x.pChildren[2].pChildren[4].pChildren.len == 1 and x.pChildren[2].pChildren[4].pChildren[0].kind == Br and
+      x.pChildren[2].pChildren[5].kind == P and x.pChildren[2].pChildren[5].pChildren.len == 2 and
+        x.pChildren[2].pChildren[5].pChildren[0].kind == P and x.pChildren[2].pChildren[5].pChildren[0].pChildren.len == 1 and
+         x.pChildren[2].pChildren[5].pChildren[0].pChildren[1].kind == P and x.pChildren[2].pChildren[5].pChildren[0].pChildren[1].pChildren.len == 0 and
+      x.pChildren[2].pChildren[6].kind == Text and x.pChildren[2].pChildren[6].textStr == "mychild4" and
+    x.pChildren[3].kind == P and x.pChildren[3].pChildren.len == 7 and
+      x.pChildren[3].pChildren[0].kind == Text and x.pChildren[3].pChildren[0].textStr == "mychild5" and
+      x.pChildren[3].pChildren[1].kind == Br and
+      x.pChildren[3].pChildren[2].kind == P and x.pChildren[3].pChildren[2].pChildren.len == 1 and
+        x.pChildren[3].pChildren[2].pChildren[0].kind == Text and x.pChildren[3].pChildren[2].pChildren[0].textStr == "mychild6" and
+      x.pChildren[3].pChildren[3].kind == P and x.pChildren[3].pChildren[3].pChildren.len == 1 and x.pChildren[3].pChildren[3].pChildren[0].kind == Br and
+      x.pChildren[3].pChildren[4].kind == P and x.pChildren[3].pChildren[4].pChildren.len == 0 and
+      x.pChildren[3].pChildren[5].kind == P and x.pChildren[3].pChildren[5].pChildren.len == 1 and
+        x.pChildren[3].pChildren[5].pChildren[0].kind == P and x.pChildren[3].pChildren[5].pChildren[0].pChildren.len == 1 and
+          x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].kind == P and x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].pChildren.len == 1 and
+            x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].pChildren[0].kind == P and x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].pChildren[0].pChildren.len == 1 and
+              x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].pChildren[0].pChildren[0].kind == P and x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].pChildren[0].pChildren[0].pChildren.len == 2 and
+                x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].pChildren[0].pChildren[0].pChildren[0].kind == P and x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].pChildren[0].pChildren[0].pChildren[0].pChildren.len == 0 and
+                x.pChildren[3].pChildren[5].pChildren[0].pChildren[0].pChildren[0].pChildren[0].pChildren[1].kind == Br and
+      x.pChildren[3].pChildren[6].kind == Text and x.pChildren[3].pChildren[6].textStr == "mychild7":
+    doAssert false
 
 defaultMutator(fuzzTarget)
