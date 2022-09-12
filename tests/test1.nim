@@ -1,7 +1,3 @@
-# nim c --cc:clang --mm:arc -d:danger --threads:off --panics:on -d:useMalloc -t:"-fprofile-instr-generate -fcoverage-mapping" -l:"-fprofile-instr-generate -fcoverage-mapping" -g -f --path:../../nim-drchaos/ -d:fuzzerStandalone tests/test1
-# ./tests/test1 corpus2/*
-# llvm-profdata merge -sparse=true default.profraw -o default.profdata
-# llvm-cov show -instr-profile=default.profdata -name=fuzzTarget ./tests/test1
 import drchaos
 
 type
