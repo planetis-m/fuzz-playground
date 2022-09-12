@@ -26,9 +26,21 @@ proc buildBinary(name: string, srcDir = "./", params = "", lang = "c") =
 proc test(name: string, srcDir = "tests/", args = "", lang = "c") =
   buildBinary name, srcDir, "--cc:clang --mm:arc -d:danger --threads:off --panics:on -d:useMalloc -t:\"-fsanitize=fuzzer,address,undefined\" -l:\"-fsanitize=fuzzer,address,undefined\" -d:nosignalhandler --nomain:on -g -f "
   withDir("build/"):
-    if not dirExists "corpus":
-      mkDir "corpus"
-    exec "./" & name & " -max_total_time=3600 corpus/ " & args
+    if not dirExists name & "_corpus":
+      mkDir name & "_corpus"
+    exec "./" & name & " -max_total_time=3600 " & name & "_corpus/ " & args
+
+proc cov(name: string, srcDir = "tests/", target = "fuzzTarget", lang = "c") =
+  buildBinary name, srcDir, "--cc:clang --mm:arc -d:danger --threads:off --panics:on -d:useMalloc -t:\"-fprofile-instr-generate -fcoverage-mapping\" -l:\"-fprofile-instr-generate -fcoverage-mapping\" -g -f --path:../../nim-drchaos/ -d:fuzzerStandalone"
+  withDir("build/"):
+    if not dirExists name & "_corpus":
+      mkDir name & "_corpus"
+    exec "LLVM_PROFILE_FILE=\"" & name & ".profraw\" ./" & name & " " & name & "_corpus/* "
+    exec "llvm-profdata merge -sparse " & name & ".profraw -o " & name & ".profdata"
+    exec "llvm-cov show -instr-profile=" & name & ".profdata -name=" & target & " ./" & name
 
 task test, "Run all tests":
   test "test1", args = "-error_exitcode=0"
+
+task cov, "Produce coverage reports":
+  cov "test1"
