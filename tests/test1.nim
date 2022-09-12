@@ -27,9 +27,9 @@ proc fuzzTarget(x: ContentNode) =
       x.pChildren[2].pChildren[3].kind == P and x.pChildren[2].pChildren[3].pChildren.len == 1 and
         x.pChildren[2].pChildren[3].pChildren[0].kind == P and x.pChildren[2].pChildren[3].pChildren[0].pChildren.len == 0 and
       x.pChildren[2].pChildren[4].kind == P and x.pChildren[2].pChildren[4].pChildren.len == 1 and x.pChildren[2].pChildren[4].pChildren[0].kind == Br and
-      x.pChildren[2].pChildren[5].kind == P and x.pChildren[2].pChildren[5].pChildren.len == 2 and
+      x.pChildren[2].pChildren[5].kind == P and x.pChildren[2].pChildren[5].pChildren.len == 1 and
         x.pChildren[2].pChildren[5].pChildren[0].kind == P and x.pChildren[2].pChildren[5].pChildren[0].pChildren.len == 1 and
-         x.pChildren[2].pChildren[5].pChildren[0].pChildren[1].kind == P and x.pChildren[2].pChildren[5].pChildren[0].pChildren[1].pChildren.len == 0 and
+         x.pChildren[2].pChildren[5].pChildren[0].pChildren[0].kind == P and x.pChildren[2].pChildren[5].pChildren[0].pChildren[0].pChildren.len == 0 and
       x.pChildren[2].pChildren[6].kind == Text and x.pChildren[2].pChildren[6].textStr == "mychild4" and
     x.pChildren[3].kind == P and x.pChildren[3].pChildren.len == 7 and
       x.pChildren[3].pChildren[0].kind == Text and x.pChildren[3].pChildren[0].textStr == "mychild5" and
