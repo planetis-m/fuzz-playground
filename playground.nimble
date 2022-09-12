@@ -28,7 +28,7 @@ proc test(name: string, srcDir = "tests/", args = "", lang = "c") =
   withDir("build/"):
     if not dirExists name & "_corpus":
       mkDir name & "_corpus"
-    exec "./" & name & " -max_total_time=3600 " & name & "_corpus/ " & args
+    exec "./" & name & " -max_total_time=21600 " & name & "_corpus/ " & args
 
 proc cov(name: string, srcDir = "tests/", target = "fuzzTarget", lang = "c") =
   buildBinary name, srcDir, "--cc:clang --mm:arc -d:danger --threads:off --panics:on -d:useMalloc -t:\"-fprofile-instr-generate -fcoverage-mapping\" -l:\"-fprofile-instr-generate -fcoverage-mapping\" -g -f --path:../../nim-drchaos/ -d:fuzzerStandalone"
